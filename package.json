@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/afrmounir/rest_api_basics/issues"
   },
-  "homepage": "https://github.com/afrmounir/rest_api_basics#readme"
+  "homepage": "https://github.com/afrmounir/rest_api_basics#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
