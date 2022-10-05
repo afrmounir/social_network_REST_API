@@ -19,6 +19,12 @@ exports.createPost = (req, res, next) => {
   // create post in db
   res.status(201).json({
     message: 'Post created',
-    post: { id: new Date().toISOString(), title, content }
+    post: {
+      _id: new Date().toISOString(),
+      title,
+      content,
+      creator: { name: 'username' },
+      createdAt: new Date()//.toLocaleDateString('fr-FR')
+    }
   });
 };
