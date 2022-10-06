@@ -118,6 +118,31 @@ exports.updatePost = (req, res, next) => {
     });
 };
 
+exports.deletePost = (req, res, next) => {
+  const postId = req.params.postId;
+  Post
+    .findOneAndDelete({ _id: postId/*, userId: req.user._id*/ }) //later we will check the user
+    .then(post => {
+      if (!post) {
+        const error = new Error('Impossible de trouver le post')
+        error.statusCode = 404;
+        throw error;
+      }
+      clearImage(post.imageUrl);
+    })
+    .then(result => {
+      console.log(result);
+      res.status(200).json({ message: 'Le post a ete supprimé' })
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+
+};
+
 const clearImage = filePath => {
   filePath = path.join(__dirname, '..', filePath);
   fs.unlink(filePath, err => console.log(err));
