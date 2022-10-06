@@ -29,7 +29,7 @@ exports.createPost = (req, res, next) => {
   const post = new Post({
     title,
     content,
-    imageURL: 'URL',
+    imageURL: 'images/screenshot.png',
     creator: { name: 'username' }
   });
   post

@@ -1,3 +1,5 @@
+const path = require('path');
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -8,6 +10,7 @@ const MONGODB_URI = 'mongodb+srv://user815:9TMiDci0cy0Pd92m@cluster0.ns3cqzi.mon
 const app = express();
 
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
