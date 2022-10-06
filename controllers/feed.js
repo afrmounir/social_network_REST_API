@@ -23,11 +23,17 @@ exports.createPost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
+  if (!req.file) {
+    const error = new Error('Pas d\'image reçu');
+    error.statusCode(422);
+    throw error;
+  }
+  const imageUrl = req.file.path;
   const { title, content } = req.body;
   const post = new Post({
     title,
     content,
-    imageUrl: 'images/lunettes.jpg',
+    imageUrl,
     creator: { name: 'username' }
   });
   post
@@ -35,7 +41,6 @@ exports.createPost = (req, res, next) => {
     .then(result => {
       console.log(result);
       res.status(201).json({
-        message: 'Post created',
         post: result
       });
     })
