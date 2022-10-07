@@ -34,6 +34,7 @@ exports.createPost = (req, res, next) => {
   if (!errors.isEmpty()) {
     const error = new Error('La validation a échoué, les données entrées sont incorrectes');
     error.statusCode = 422;
+    error.data = errors.array();
     throw error;
   }
   if (!req.file) {
@@ -92,6 +93,7 @@ exports.updatePost = (req, res, next) => {
   if (!errors.isEmpty()) {
     const error = new Error('La validation a échoué, les données entrées sont incorrectes');
     error.statusCode = 422;
+    error.data = errors.array();
     throw error;
   }
   const { title, content } = req.body;
