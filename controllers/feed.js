@@ -161,10 +161,12 @@ exports.deletePost = (req, res, next) => {
       }
       clearImage(post.imageUrl);
     })
-    .then(result => {
-      console.log(result);
-      res.status(200).json({ message: 'Le post a ete supprimé' })
+    .then(() => User.findById(req.userId))
+    .then(user => {
+      user.posts.pull(postId);
+      return user.save()
     })
+    .then(() => res.status(200).json({ message: 'Le post a ete supprimé' }))
     .catch(err => {
       if (!err.statusCode) {
         err.statusCode = 500;
