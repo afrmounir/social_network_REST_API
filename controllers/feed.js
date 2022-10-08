@@ -122,6 +122,11 @@ exports.updatePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (post.creator.toString() !== req.userId) { // toString => _id is retrieved from db, _id is treated as a string in js but it's not of type string so === will be false.
+        const error = new Error('Pas autorisé');
+        error.statusCode = 403;
+        throw error;
+      }
       if (imageUrl !== post.imageUrl) {
         clearImage(post.imageUrl);
       }
@@ -142,11 +147,16 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const postId = req.params.postId;
   Post
-    .findOneAndDelete({ _id: postId/*, userId: req.user._id*/ }) //later we will check the user
+    .findById(postId)
     .then(post => {
       if (!post) {
         const error = new Error('Impossible de trouver le post')
         error.statusCode = 404;
+        throw error;
+      }
+      if (post.creator.toString() !== req.userId) { // toString => _id is retrieved from db, _id is treated as a string in js but it's not of type string so === will be false.
+        const error = new Error('Pas autorisé');
+        error.statusCode = 403;
         throw error;
       }
       clearImage(post.imageUrl);
