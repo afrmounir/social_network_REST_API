@@ -55,7 +55,7 @@ exports.createPost = async (req, res, next) => {
     const user = await User.findById(req.userId);
     user.posts.push(post);
     await user.save();
-    io.getIO().emit('posts', {
+    io.getIO().emit('posts', {// instantly informs all clients that there is a new post with websocket
       action: 'create',
       post: {
         ...post._doc,
@@ -64,7 +64,7 @@ exports.createPost = async (req, res, next) => {
           name: user.name
         }
       }
-    }); // instantly informs all clients that there is a new post with websocket
+    });
     res.status(201).json({
       message: 'post généré',
       post: post,
@@ -116,13 +116,15 @@ exports.updatePost = async (req, res, next) => {
     throw error;
   }
   try {
-    const post = await Post.findById(postId);
+    const post = await Post
+      .findById(postId)
+      .populate('creator');
     if (!post) {
       const error = new Error('Impossible de trouver un post');
       error.statusCode = 404;
       throw error;
     }
-    if (post.creator.toString() !== req.userId) { // toString => _id is retrieved from db, _id is treated as a string in js but it's not of type string so === will be false.
+    if (post.creator._id.toString() !== req.userId) { // toString => _id is retrieved from db, _id is treated as a string in js but it's not of type string so === will be false.
       const error = new Error('Pas autorisé');
       error.statusCode = 403;
       throw error;
@@ -134,6 +136,7 @@ exports.updatePost = async (req, res, next) => {
     post.content = content;
     post.imageUrl = imageUrl;
     const result = await post.save();
+    io.getIO().emit('posts', { action: 'update', post: result });
     res.status(200).json({ message: 'post mis à jour', post: result });
   } catch (error) {
     if (!error.statusCode) {
