@@ -16,6 +16,7 @@ exports.getPosts = async (req, res, next) => {
       .estimatedDocumentCount();
     const posts = await Post
       .find()
+      .populate('creator')
       .skip((currentPage - 1) * perPage) // skip the first items
       .limit(perPage); // limit the amount of items
     res.status(200).json({ message: 'posts chargé avec succès', posts, totalItems });
@@ -54,7 +55,16 @@ exports.createPost = async (req, res, next) => {
     const user = await User.findById(req.userId);
     user.posts.push(post);
     await user.save();
-    io.getIO().emit('posts', { action: 'create', post }); // instantly informs all clients that there is a new post with websocket
+    io.getIO().emit('posts', {
+      action: 'create',
+      post: {
+        ...post._doc,
+        creator: {
+          _id: req.userId,
+          name: user.name
+        }
+      }
+    }); // instantly informs all clients that there is a new post with websocket
     res.status(201).json({
       message: 'post généré',
       post: post,
