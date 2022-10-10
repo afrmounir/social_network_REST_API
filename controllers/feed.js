@@ -17,6 +17,7 @@ exports.getPosts = async (req, res, next) => {
     const posts = await Post
       .find()
       .populate('creator')
+      .sort({ createdAt: -1 })
       .skip((currentPage - 1) * perPage) // skip the first items
       .limit(perPage); // limit the amount of items
     res.status(200).json({ message: 'posts chargé avec succès', posts, totalItems });
