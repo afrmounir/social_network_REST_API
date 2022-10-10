@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { validationResult } = require('express-validator');
 
+const io = require('../socket');
 const Post = require('../models/post');
 const User = require('../models/user');
 
@@ -53,6 +54,7 @@ exports.createPost = async (req, res, next) => {
     const user = await User.findById(req.userId);
     user.posts.push(post);
     await user.save();
+    io.getIO().emit('posts', { action: 'create', post }); // instantly informs all clients that there is a new post with websocket
     res.status(201).json({
       message: 'post généré',
       post: post,
