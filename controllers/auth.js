@@ -49,11 +49,13 @@ exports.login = async (req, res, next) => {
       { expiresIn: '1h' }
     );
     res.status(200).json({ token, userId: user._id.toString() });
+    return; //implicitly return the promesse behind async await for tests purpose
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
     }
     next(error);
+    return error; //implicitly return the promesse behind async await for tests purpose
   }
 };
 
