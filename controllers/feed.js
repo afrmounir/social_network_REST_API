@@ -44,7 +44,6 @@ exports.createPost = async (req, res, next) => {
   }
   const imageUrl = req.file.path;
   const { title, content } = req.body;
-  let creator;
   const post = new Post({
     title,
     content,
@@ -55,7 +54,7 @@ exports.createPost = async (req, res, next) => {
     await post.save();
     const user = await User.findById(req.userId);
     user.posts.push(post);
-    await user.save();
+    const savedUser = await user.save();
     io.getIO().emit('posts', {// instantly informs all clients that there is a new post with websocket
       action: 'create',
       post: {
@@ -71,6 +70,7 @@ exports.createPost = async (req, res, next) => {
       post: post,
       creator: { _id: user._id, name: user.name }
     });
+    return savedUser; // return the user for testing purpose
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
