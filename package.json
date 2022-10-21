@@ -1,8 +1,11 @@
 {
-  "name": "rest_api_basics",
+  "name": "social_network_rest_api",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "16.16.0"
+  },
   "scripts": {
     "test": "mocha",
     "start": "NODE_ENV=production node app.js",
@@ -11,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/afrmounir/rest_api_basics.git"
+    "url": "git+https://github.com/afrmounir/rest_api.git"
   },
   "author": "Mounir AFROUKH",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/afrmounir/rest_api_basics/issues"
+    "url": "https://github.com/afrmounir/rest_api/issues"
   },
-  "homepage": "https://github.com/afrmounir/rest_api_basics#readme",
+  "homepage": "https://github.com/afrmounir/rest_api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",

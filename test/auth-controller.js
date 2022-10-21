@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const authController = require('../controllers/auth');
 
-const MONGODB_URI = 'mongodb+srv://user815:9TMiDci0cy0Pd92m@cluster0.ns3cqzi.mongodb.net/test-socialnetwork?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_KEY;
 
 describe('Auth Controller', function () {
   before(function (done) {

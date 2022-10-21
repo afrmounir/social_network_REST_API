@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const feedController = require('../controllers/feed');
 
-const MONGODB_URI = 'mongodb+srv://user815:9TMiDci0cy0Pd92m@cluster0.ns3cqzi.mongodb.net/test-socialnetwork?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_KEY;
 
 describe('Feed Controller', function () {
   before(function (done) {

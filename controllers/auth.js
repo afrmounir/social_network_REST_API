@@ -45,7 +45,7 @@ exports.login = async (req, res, next) => {
       email: user.email,
       userId: user._id.toString()
     },
-      'someLongSecretString',
+    process.env.SESSION_SECRET,
       { expiresIn: '1h' }
     );
     res.status(200).json({ token, userId: user._id.toString() });
