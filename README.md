@@ -96,7 +96,7 @@ Features:
 
 1. Clone the repo
    ```sh
-   git clone git@github.com:afrmounir/online_shop.git
+   git clone git@github.com:afrmounir/social_network_REST_API.git
    ```
 2. Install NPM packages
    ```sh
@@ -111,7 +111,7 @@ Features:
    ```sh
    npm start
    ```
-5. Follow the instruction from https://github.com/afrmounir/social_network_Reactaunch to launch the front end 
+5. Follow the instruction from https://github.com/afrmounir/social_network_React to launch the front end 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
