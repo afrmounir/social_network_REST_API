@@ -48,7 +48,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Development of an REST API from scratch.
+Development of a REST API from scratch.
 
 Features:
 
